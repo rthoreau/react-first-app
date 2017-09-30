@@ -4,7 +4,7 @@ import './App.css';
 class Submit extends Component {
 	render() {
 		return (
-			<button onClick={this.props.actionOnClick} className="Submit">Submit</button>
+			<button onClick={this.props.actionOnClick} className="submit">Submit</button>
 		);
 	}
 }

@@ -15,7 +15,7 @@ class Article extends Component {
 		return (
 			<article data-id={this.props.id}>
 				<p>{this.props.value}</p>
-				<button onClick={this.removeOnClick}>x</button>
+				<button onClick={this.removeOnClick}></button>
 			</article>
 		);
 	}
