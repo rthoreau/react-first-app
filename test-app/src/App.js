@@ -1,67 +1,84 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
-import Textarea from './Textarea';
-import Submit from './Submit';
+import Search from './Search';
 import Article from './Article';
+import dummy from './dummy';
 
 class App extends Component {
-
   constructor() {
-	super();
-	this.state = {
-		textareaText: '',
-		articles: []
+    super();
+    this.state = {
+      searchValue: '',
+      articles: [],
+      data: dummy,
+      filteredData: dummy,
+      saved:
+        localStorage.getItem('pictureSaved') != undefined
+          ? localStorage.getItem('saved')
+          : [],
+    };
+    console.log(dummy);
+    this.save = this.save.bind(this);
+    this.handleTextChange = this.handleTextChange.bind(this);
   }
 
-  this.actionOnClickFunction = this.actionOnClickFunction.bind(this);
-  this.handleTextChange = this.handleTextChange.bind(this);
-  this.removeItem = this.removeItem.bind(this);
+  handleTextChange(event) {
+    this.setState({ searchValue: event });
 
-}
+    if (event === '') {
+      this.setState({ filteredData: this.state.data });
+    } else {
+      var tempData = [];
 
-handleTextChange(event) {
-	this.setState({textareaText : event});
-};
+      for (var i = 0; i < this.state.data.length; i++) {
+        if (
+          this.state.data[i].username
+            .toLowerCase()
+            .indexOf(event.toLowerCase()) >= 0
+        ) {
+          tempData.push(this.state.data[i]);
+        }
+      }
+      this.setState({ filteredData: tempData });
+    }
+  }
 
-actionOnClickFunction(){
-	console.log(this.state.textareaText);
-	var id = Math.floor(Math.random() * 99999);
-	this.setState({
-		articles: this.state.articles.concat({value:this.state.textareaText, id:id})
-	});
-}
+  save(id) {
+    var temp = localStorage.getItem('pictureSaved')
+      ? localStorage.getItem('pictureSaved')
+      : [];
+    temp.push(id);
+    localStorage.setItem('pictureSaved', temp);
 
-removeItem(itemId){
-	console.log(itemId);
+    this.setState({ saved: localStorage.getItem('pictureSaved') });
+  }
 
-	var array = this.state.articles.filter(function(item) {
-		return item.id !== itemId
-	});
-
-	this.setState({
-		articles: array
-	});
-
-};
-
-render() {
-	return (
-	  <div className="App">
-	  <div className="App-header">
-	  <img src={logo} className="App-logo" alt="logo" />
-	  <h2>Welcome to React</h2>
-	  </div>
-	  <Textarea value={this.state.textareaText} onTextChange={this.handleTextChange}></Textarea>
-	  <Submit actionOnClick={ this.actionOnClickFunction }></Submit>
-	  {
-		  this.state.articles.map((item) => (
-			  <Article key={item.id} id={item.id} value={item.value} actionOnClick={this.removeItem}/>
-		  ))
-	  }
-	  </div>
-	  );
-}
+  render() {
+    return (
+      <div className="App">
+        <div className="App-header">
+          <img src={logo} className="App-logo" alt="logo" />
+          <h2>Welcome to React</h2>
+        </div>
+        <Search
+          value={this.state.searchValue}
+          onTextChange={this.handleTextChange}
+        />
+        {this.state.filteredData.map(item => (
+          //Pour le onClick react l'appel au render, il faut donc se baser sur un callback grâce à une fonction anonyme
+          <Article
+            key={item.id}
+            id={item.id}
+            value={item.username}
+            picture={item.picture}
+            save={this.save}
+            saved={this.state.saved.indexOf(item.id) >= 0 ? true : false}
+          />
+        ))}
+      </div>
+    );
+  }
 }
 
 export default App;

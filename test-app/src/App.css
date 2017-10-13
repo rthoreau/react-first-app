@@ -18,55 +18,30 @@
 	font-size: large;
 }
 
-textarea{
-	margin:10px 0 0;
+input[type='text']{
+	display:block;
+	margin:10px auto 0;
 	width:400px;
 	box-sizing:border-box;
 	padding:10px;
-	resize:none;
 	font-size:16px;
 	border:1px solid #61dafb;
-}
-.submit{
-	display:block;
-	margin:10px auto;
-	border:2px solid #61dafb;
-	box-shadow:none;
-	background-color:transparent;
-	padding:5px 12px;
-	-webkit-appearance:none;
-	border-radius:5px;
-}
-.submit:hover{
-	background-color:rgba(96,218,251,0.2);
-	cursor:pointer;
 }
 
 article{
 	position:relative;
-	display:block;
+	display:inline-block;
 	border:1px solid #222;
-	margin:20px auto 0;
-	width:400px;
-}
-article button{
-	position:absolute;
-	top:3px;
-	right:3px;
-	-webkit-appearance:none;
-	border:none;
-	background-color:transparent;
-	padding:2px;
-	font-size:16px;
-	line-height:16px;
+	margin:20px 1%;
+	width:18%;
 	cursor:pointer;
 }
-article button:hover{
-	background-color:rgba(0,0,0,0.1);
+article.saved{
+	background-color:#284685;
 }
-article button:before{
-	content:'✖';
-	font-size:16px;
+article img{
+	width:100%;
+	height:auto;
 }
 
 @keyframes App-logo-spin {
